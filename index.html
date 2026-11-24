@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desafio X Fortaleza</title>
+<style>html,body{margin:0;padding:0;background:transparent;color-scheme:light}#sponsorize-desafio-fortaleza .sfx-card{height:100vh!important;min-height:320px}</style>
+</head>
+<body>
+<!-- Sponsorize · Desafio X Fortaleza (O jogo do patrocínio · Red Bull Bragantino) -->
+<div id="sponsorize-desafio-fortaleza">
+<style>
+#sponsorize-desafio-fortaleza{font:14px/1.4 Helvetica,Arial,sans-serif;color:#111;width:100%}
+#sponsorize-desafio-fortaleza *{box-sizing:border-box}
+#sponsorize-desafio-fortaleza .sfx-card{width:100%;height:400px;display:flex;flex-direction:column;overflow:hidden;background:transparent;border:0;padding:4px 0 12px}
+#sponsorize-desafio-fortaleza .sfx-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+#sponsorize-desafio-fortaleza .sfx-title{font:700 16px/1.3 Inter,Helvetica,Arial,sans-serif;margin:2px 0 0;color:#000}
+#sponsorize-desafio-fortaleza .sfx-fav{width:34px;height:34px;border-radius:50%;background:#0E4700;display:flex;align-items:center;justify-content:center;flex:none}
+#sponsorize-desafio-fortaleza .sfx-fav svg{width:18px;height:18px}
+#sponsorize-desafio-fortaleza .sfx-chart{flex:1 1 auto;min-height:0}
+#sponsorize-desafio-fortaleza .sfx-legend{flex:none;display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;gap:14px;padding:2px 4px}
+#sponsorize-desafio-fortaleza .sfx-legend button{flex:none;white-space:nowrap}
+@media (min-width:900px){#sponsorize-desafio-fortaleza .sfx-legend{justify-content:center}}
+#sponsorize-desafio-fortaleza .sfx-legend button{background:none;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font:12px Helvetica,Arial,sans-serif;color:#373d3f;padding:4px 2px;border-radius:4px}
+#sponsorize-desafio-fortaleza .sfx-legend button:focus-visible{outline:2px solid #00BF00;outline-offset:2px}
+#sponsorize-desafio-fortaleza .sfx-legend button[aria-pressed=false]{opacity:.4}
+#sponsorize-desafio-fortaleza .sfx-legend i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.sfx-tt{padding:8px 10px;font:12px/1.45 Helvetica,Arial,sans-serif;color:#111;max-width:300px;white-space:normal}
+.sfx-tt b{display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:2px}
+.sfx-tt b i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.sfx-tt span{color:#6b7280}
+</style>
+<div class="sfx-card">
+  <div class="sfx-chart"></div>
+  <div class="sfx-legend"></div>
+</div>
+<script>
+function sfxInit(){
+{
+const root = document.getElementById("sponsorize-desafio-fortaleza");
+const DES = ["Mensuração de retorno","Alocação de verba","Fit estratégico","Relacionamento","Captação de patrocínio","Lançamento de ativo"];
+const FOR = ["Inteligência de mercado","Atribuição de vendas","Pesquisa com institutos","Hospitality","Experiência de produto","Experiência diferenciada","Calendário recorrente","Comunidade","Parcerias de longo prazo","Impacto e relevância"];
+const N = FOR.length;
+const posR = i => N - i; // primeiro grupo no topo
+const posL = i => N - i*(N-1)/(DES.length-1); // esquerda distribuída na mesma altura
+
+const COLORS = {
+  "Allugator":"#0E4700","Banco do Brasil":"#2E7D32","Buser":"#00BF00","Centauro":"#33CE60",
+  "Chery":"#7ED957","Claro":"#00796B","MBRF":"#1DB9A0","Não identificada":"#A9DD8C",
+  "Track&Field":"#5A8F00","Urbia Parques":"#26A65B","WSL":"#A8D600"
+};
+
+const ROWS = [
+  {emp:"Allugator", d:"Mensuração de retorno", f:"Hospitality", nota:"Inclui reduzir o no-show em eventos gratuitos"},
+  {emp:"Allugator", d:"Alocação de verba", f:"Hospitality", nota:"Quando investir em branding e quando em ROI de curto prazo"},
+  {emp:"Banco do Brasil", d:"Relacionamento", f:"Parcerias de longo prazo", nota:"Transformar patrocínio em relacionamento e negócios"},
+  {emp:"Buser", d:"Mensuração de retorno", f:"Comunidade", nota:"Retorno imediato e adstock de marca no longo prazo"},
+  {emp:"Centauro", d:"Mensuração de retorno", f:"Atribuição de vendas", nota:"Hoje mede mais exposição do que resultado"},
+  {emp:"Chery", d:"Relacionamento", f:"Comunidade", nota:"Ativações que gerem fidelidade"},
+  {emp:"Claro", d:"Fit estratégico", f:"Pesquisa com institutos", nota:"Traduzir o território da marca em patrocínios; também cita mensuração"},
+  {emp:"MBRF", d:"Fit estratégico", f:"Experiência de produto", nota:"Propostas customizadas, ligadas à estratégia da marca, com contrapartidas claras"},
+  {emp:"Não identificada", d:"Fit estratégico", f:"Experiência diferenciada", nota:"Oportunidades alinhadas ao público e ao direcional estratégico"},
+  {emp:"Track&Field", d:"Lançamento de ativo", f:"Calendário recorrente", nota:"Lançar o Open de Raquetes Track&Field"},
+  {emp:"Urbia Parques", d:"Captação de patrocínio", f:"Impacto e relevância"},
+  {emp:"WSL", d:"Mensuração de retorno", f:"Inteligência de mercado"}
+];
+
+const STEPS = 60;
+const cats = Array.from({length:STEPS+1},(_,k)=> k===0 ? "Desafio" : k===STEPS ? "Fortaleza" : "");
+const ease = t => 3*t*t - 2*t*t*t;
+
+const series = ROWS.map(r=>{
+  const a = posL(DES.indexOf(r.d)), b = posR(FOR.indexOf(r.f));
+  const name = ROWS.filter(x=>x.emp===r.emp).length>1 ? r.emp+" · "+(ROWS.filter(x=>x.emp===r.emp).indexOf(r)+1) : r.emp;
+  r.name = name;
+  return {name, data: Array.from({length:STEPS+1},(_,k)=> +(a+(b-a)*ease(k/STEPS)).toFixed(4))};
+});
+const colors = ROWS.map(r=>COLORS[r.emp]);
+
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+const rightLabels = FOR.map((t,i)=>({
+  y: posR(i), borderColor:"transparent", strokeDashArray:0,
+  label:{text:t, position:"right", textAnchor:"start", offsetX:14, offsetY:4, borderWidth:0,
+    style:{background:"transparent", color:"#373d3f", fontSize:"10px", fontFamily:"Helvetica, Arial, sans-serif", padding:{left:0,right:0,top:0,bottom:0}}}
+}));
+
+const leftLabels = DES.map((t,i)=>({
+  y: posL(i), borderColor:"transparent", strokeDashArray:0,
+  label:{text:t, position:"left", textAnchor:"end", offsetX:-14, offsetY:4, borderWidth:0,
+    style:{background:"transparent", color:"#373d3f", fontSize:"10px", fontFamily:"Helvetica, Arial, sans-serif", padding:{left:0,right:0,top:0,bottom:0}}}
+}));
+
+const small = () => root.clientWidth < 640;
+
+const options = {
+  chart:{type:"line", height: Math.max(220, root.querySelector(".sfx-chart").clientHeight), fontFamily:"Helvetica, Arial, sans-serif",
+    toolbar:{show:true, tools:{download:true, selection:true, zoom:true, zoomin:true, zoomout:true, pan:true, reset:true}},
+    zoom:{enabled:true}, animations:{enabled:!matchMedia("(prefers-reduced-motion: reduce)").matches, speed:600}},
+  series, colors,
+  stroke:{curve:"straight", width:4, lineCap:"round"},
+  markers:{size:0, hover:{size:0}},
+  legend:{show:false},
+  grid:{borderColor:"#e6e6e6", strokeDashArray:0, xaxis:{lines:{show:false}}, yaxis:{lines:{show:true}},
+    padding:{right: small()?122:150, left: small()?108:150, top:-14, bottom:-4}},
+  xaxis:{categories:cats, tickPlacement:"on", tickAmount: STEPS,
+    labels:{rotate:-45, rotateAlways:true, hideOverlappingLabels:false, offsetY:-2, maxHeight:48, style:{fontSize:"11px", colors:"#373d3f"}},
+    axisBorder:{show:true, color:"#e0e0e0"}, axisTicks:{show:false}, tooltip:{enabled:false}, crosshairs:{show:false}},
+  yaxis:{min:0, max:N+1, tickAmount:N+1, forceNiceScale:false, labels:{show:false}},
+  annotations:{yaxis:[...leftLabels, ...rightLabels]},
+  states:{hover:{filter:{type:"none"}}, active:{filter:{type:"none"}}},
+  tooltip:{shared:false, intersect:false, followCursor:true,
+    custom: ({seriesIndex}) => { const r = ROWS[seriesIndex];
+      return `<div class="sfx-tt"><b><i style="background:${COLORS[r.emp]}"></i>${esc(r.emp)}</b>Desafio: ${esc(r.d)}<br>Fortaleza: ${esc(r.f)}${r.nota?`<br><span>${esc(r.nota)}</span>`:""}</div>`; }}
+};
+
+// legenda por empresa: uma cor por empresa, clique liga/desliga todas as linhas dela
+const emps = [...new Set(ROWS.map(r=>r.emp))];
+const lg = root.querySelector(".sfx-legend");
+lg.innerHTML = emps.map(e=>`<button type="button" aria-pressed="true" data-e="${esc(e)}"><i style="background:${COLORS[e]}"></i>${esc(e)}</button>`).join("");
+options.chart.height = Math.max(220, root.querySelector(".sfx-chart").clientHeight - 12);
+const chart = new ApexCharts(root.querySelector(".sfx-chart"), options);
+chart.render();
+
+lg.addEventListener("click", ev=>{
+  const btn = ev.target.closest("button"); if(!btn) return;
+  const e = btn.dataset.e;
+  ROWS.filter(r=>r.emp===e).forEach(r=>chart.toggleSeries(r.name));
+  btn.setAttribute("aria-pressed", btn.getAttribute("aria-pressed")==="true" ? "false" : "true");
+});
+}
+
+}
+(function(){if(window.ApexCharts){sfxInit();return;}var t=document.createElement("script");t.src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js";t.onload=sfxInit;document.head.appendChild(t);})();
+</script>
+</div>
+</body>
+</html>
